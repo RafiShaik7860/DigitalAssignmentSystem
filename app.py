@@ -34,7 +34,18 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///assigneval.db"
+database_url = os.environ.get("DATABASE_URL")
+
+if database_url:
+    database_url = database_url.replace(
+        "postgres://", "postgresql+psycopg://", 1
+    )
+    database_url = database_url.replace(
+        "postgresql://", "postgresql+psycopg://", 1
+    )
+    app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+else:
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///assigneval.db"
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
