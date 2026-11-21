@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Assignment - AssignEval</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <nav>
+        <h2>AssignEval</h2>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+
+    <main>
+
+        <h1>Submit Assignment</h1>
+
+        <form method="POST"
+              enctype="multipart/form-data">
+
+            <label for="assignment_id">
+                Select Assignment
+            </label>
+
+            <select name="assignment_id"
+                    id="assignment_id"
+                    required>
+
+                <option value="">Choose an assignment</option>
+
+                {% for assignment in assignments %}
+                    <option value="{{ assignment.id }}">
+                        {{ assignment.title }} - {{ assignment.subject }}
+                    </option>
+                {% endfor %}
+
+            </select>
+
+            <br><br>
+
+            <label for="file">
+                Upload Assignment (PDF only)
+            </label>
+
+            <input type="file"
+                   name="file"
+                   id="file"
+                   accept=".pdf,application/pdf"
+                   required>
+
+            <br><br>
+
+            <button type="submit">
+                Submit Assignment
+            </button>
+
+        </form>
+
+    </main>
+
+</body>
+</html>

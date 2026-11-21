@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AssignEval | Assignment Management</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">AssignEval</div>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+        </div>
+
+        <a href="{{ url_for('login') }}">Login</a>
+    </nav>
+
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <p class="tagline">SMARTER ACADEMIC MANAGEMENT</p>
+
+            <h1>
+                Digital Assignment
+                <span>Evaluation System</span>
+            </h1>
+
+            <p class="description">
+                Submit assignments, evaluate student performance
+                and manage academic activities through one platform.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#" class="primary-btn">Get Started</a>
+                <a href="#features" class="secondary-btn">Explore Features</a>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="features" id="features">
+
+        <h2>Our Platform Features</h2>
+
+        <div class="feature-container">
+
+            <div class="feature-card">
+                <h3>Student Portal</h3>
+                <p>Submit assignments and track marks and feedback.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>Faculty Portal</h3>
+                <p>Create assignments and evaluate student submissions.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>Admin Portal</h3>
+                <p>Manage users, subjects and academic activities.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <footer id="about">
+        <p>© 2026 AssignEval | Digital Assignment Evaluation System</p>
+    </footer>
+
+</body>
+</html>

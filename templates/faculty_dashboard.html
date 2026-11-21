@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Dashboard - AssignEval</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav>
+        <h2>AssignEval</h2>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+
+    <main>
+        <h1>Welcome, Faculty!</h1>
+        <p>Manage assignments and evaluate student submissions.</p>
+
+        <section>
+            <h2>Faculty Dashboard</h2>
+
+            <div>
+                <h3>Create Assignment</h3>
+                <p>Create and publish assignments for students.</p>
+                <a href="{{ url_for('create_assignment') }}">
+                    <button type="button">Create New Assignment</button>
+                </a>
+            </div>
+
+            <div>
+                <h3>View Submissions</h3>
+                <a href="{{ url_for('view_submissions') }}">
+                    <button type="button">View Student Submissions</button>
+                </a>
+                <p>View and evaluate submitted assignments.</p>
+            </div>
+
+            <div>
+                <h3>Student Performance</h3>
+                <p>Monitor student marks and progress.</p>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>

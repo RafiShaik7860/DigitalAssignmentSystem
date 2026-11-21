@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - AssignEval</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <nav>
+        <h2>AssignEval</h2>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+
+    <main>
+
+        <h1>Welcome, {{ current_user.username }}!</h1>
+
+        <p>You are successfully logged in to AssignEval.</p>
+
+        <section>
+
+            <h2>Student Dashboard</h2>
+
+            <!-- My Assignments -->
+            <div>
+                <h3>My Assignments</h3>
+
+                {% if assignments %}
+
+                    {% for assignment in assignments %}
+
+                        <div>
+                            <h4>{{ assignment.title }}</h4>
+
+                            <p>
+                                <strong>Subject:</strong>
+                                {{ assignment.subject }}
+                            </p>
+
+                            <p>
+                                <strong>Description:</strong>
+                                {{ assignment.description }}
+                            </p>
+
+                            <p>
+                                <strong>Deadline:</strong>
+                                {{ assignment.deadline.strftime('%d-%m-%Y %I:%M %p') }}
+                            </p>
+
+                            <p>
+                                <strong>Maximum Marks:</strong>
+                                {{ assignment.max_marks }}
+                            </p>
+                        </div>
+
+                        <hr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p>No assignments available yet.</p>
+
+                {% endif %}
+
+            </div>
+
+            <!-- Submit Assignment -->
+            <div>
+                <h3>Submit Assignment</h3>
+
+                <p>Upload your completed assignment PDF.</p>
+
+                <a href="{{ url_for('submit_assignment') }}">
+                    <button type="button">Submit Assignment</button>
+                </a>
+            </div>
+
+            <!-- My Submissions and Results -->
+            <div>
+                <h2>My Submissions & Results</h2>
+
+                {% if submissions %}
+
+                    {% for submission in submissions %}
+
+                        <div>
+
+                            <hr>
+
+                            <h3>{{ submission.assignment.title }}</h3>
+
+                            <p>
+                                <strong>Subject:</strong>
+                                {{ submission.assignment.subject }}
+                            </p>
+
+                            <p>
+                                <strong>Submitted At:</strong>
+                                {{ submission.submitted_at.strftime('%d-%m-%Y %I:%M %p') }}
+                            </p>
+
+                            <p>
+                                <strong>Status:</strong>
+                                {{ submission.status }}
+                            </p>
+
+                            {% if submission.status == "Evaluated" %}
+
+                                <p>
+                                    <strong>Marks:</strong>
+                                    {{ submission.marks }}
+                                    / {{ submission.assignment.max_marks }}
+                                </p>
+
+                                <p>
+                                    <strong>Faculty Feedback:</strong>
+                                    {{ submission.feedback }}
+                                </p>
+
+                            {% else %}
+
+                                <p>
+                                    Your assignment is waiting for evaluation.
+                                </p>
+
+                            {% endif %}
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p>You have not submitted any assignments yet.</p>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

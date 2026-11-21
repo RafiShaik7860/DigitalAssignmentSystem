@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Assignment - AssignEval</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <nav>
+        <h2>AssignEval</h2>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+
+    <main>
+        <h1>Create New Assignment</h1>
+
+        <form method="POST">
+
+            <label>Assignment Title</label>
+            <input type="text" name="title" required>
+
+            <label>Description</label>
+            <textarea name="description" required></textarea>
+
+            <label>Subject</label>
+            <input type="text" name="subject" required>
+
+            <label>Deadline</label>
+            <input type="datetime-local" name="deadline" required>
+
+            <label>Maximum Marks</label>
+            <input type="number" name="max_marks"
+                   min="1" value="100" required>
+
+            <button type="submit">Create Assignment</button>
+
+        </form>
+    </main>
+
+</body>
+</html>
