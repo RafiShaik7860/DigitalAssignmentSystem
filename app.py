@@ -31,7 +31,7 @@ app = Flask(__name__)
 
 
 # 2. Application configuration
-app.config["SECRET_KEY"] = "assigneval-development-key"
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///assigneval.db"
