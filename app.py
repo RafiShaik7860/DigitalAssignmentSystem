@@ -1,5 +1,8 @@
 import os
 import uuid
+from supabase import create_client, Client
+from io import BytesIO
+from flask import send_file
 
 from werkzeug.utils import secure_filename
 from datetime import datetime
@@ -48,7 +51,22 @@ else:
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///assigneval.db"
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# Supabase Storage Configuration
+# Supabase Storage Configuration
 
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+
+print("Supabase URL loaded:", bool(SUPABASE_URL))
+print("Supabase Secret Key loaded:", bool(SUPABASE_SERVICE_ROLE_KEY))
+
+if not SUPABASE_URL or not SUPABASE_SERVICE_ROLE_KEY:
+    raise RuntimeError("Supabase Storage credentials are missing.")
+
+supabase: Client = create_client(
+    SUPABASE_URL,
+    SUPABASE_SERVICE_ROLE_KEY
+)
 
 # 3. Database connection
 db.init_app(app)
@@ -219,6 +237,7 @@ def create_assignment():
 
     return render_template("create_assignment.html")
 
+
 @app.route("/submit-assignment", methods=["GET", "POST"])
 @login_required
 def submit_assignment():
@@ -252,7 +271,7 @@ def submit_assignment():
             flash("Only PDF files are allowed.")
             return redirect(url_for("submit_assignment"))
 
-        # Check the actual PDF file signature
+        # Check actual PDF signature
         file_signature = uploaded_file.read(5)
         uploaded_file.seek(0)
 
@@ -260,29 +279,55 @@ def submit_assignment():
             flash("Invalid PDF file.")
             return redirect(url_for("submit_assignment"))
 
-        # Create the upload folder
-        upload_folder = os.path.join(app.root_path, "uploads")
-        os.makedirs(upload_folder, exist_ok=True)
-
-        # Generate a unique filename
+        # Generate unique filename
         stored_filename = f"{uuid.uuid4().hex}_{clean_filename}"
 
-        file_path = os.path.join(upload_folder, stored_filename)
+        storage_uploaded = False
 
-        # Save the uploaded PDF
-        uploaded_file.save(file_path)
+        try:
+            # Read PDF contents
+            file_data = uploaded_file.read()
 
-        # Save submission details in the database
-        new_submission = Submission(
-            assignment_id=assignment.id,
-            student_id=current_user.id,
-            filename=stored_filename
-        )
+            # Upload PDF to Supabase Storage
+            supabase.storage.from_("submissions").upload(
+                path=stored_filename,
+                file=file_data,
+                file_options={
+                    "content-type": "application/pdf",
+                    "upsert": "false"
+                }
+            )
 
-        db.session.add(new_submission)
-        db.session.commit()
+            storage_uploaded = True
 
-        flash("Assignment submitted successfully!")
+            # Save submission details in PostgreSQL
+            new_submission = Submission(
+                assignment_id=assignment.id,
+                student_id=current_user.id,
+                filename=stored_filename
+            )
+
+            db.session.add(new_submission)
+            db.session.commit()
+
+            flash("Assignment submitted successfully!")
+
+        except Exception:
+            db.session.rollback()
+
+            # Remove uploaded file if database saving fails
+            if storage_uploaded:
+                try:
+                    supabase.storage.from_("submissions").remove(
+                        [stored_filename]
+                    )
+                except Exception:
+                    app.logger.exception(
+                        "Could not remove orphaned Supabase file."
+                    )
+
+            app.logger.exception("Assignment submission failed.")
+            flash("Submission failed. Please try again.")
 
         return redirect(url_for("dashboard"))
 
@@ -294,6 +339,7 @@ def submit_assignment():
         "submit_assignment.html",
         assignments=assignments
     )
+
 @app.route("/view-submissions")
 @login_required
 def view_submissions():
@@ -356,6 +402,7 @@ def evaluate_submission(submission_id):
         "evaluate_submission.html",
         submission=submission
     )
+
 @app.route("/download-submission/<int:submission_id>")
 @login_required
 def download_submission(submission_id):
@@ -368,13 +415,25 @@ def download_submission(submission_id):
         Assignment.faculty_id == current_user.id
     ).first_or_404()
 
-    upload_folder = os.path.join(app.root_path, "uploads")
+    try:
+        # Download PDF from private Supabase Storage
+        file_data = supabase.storage.from_("submissions").download(
+            submission.filename
+        )
 
-    return send_from_directory(
-        upload_folder,
-        submission.filename,
-        as_attachment=True
-    )
+        # Send PDF to faculty as a download
+        return send_file(
+            BytesIO(file_data),
+            as_attachment=True,
+            download_name=submission.filename,
+            mimetype="application/pdf"
+        )
+
+    except Exception:
+        app.logger.exception("Submission download failed.")
+        flash("Unable to download submission. Please try again.")
+        return redirect(url_for("view_submissions"))
+
 # 9. Logout
 @app.route("/logout")
 @login_required
