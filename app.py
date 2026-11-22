@@ -57,8 +57,6 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
-print("Supabase URL loaded:", bool(SUPABASE_URL))
-print("Supabase Secret Key loaded:", bool(SUPABASE_SERVICE_ROLE_KEY))
 
 if not SUPABASE_URL or not SUPABASE_SERVICE_ROLE_KEY:
     raise RuntimeError("Supabase Storage credentials are missing.")
