@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,65 +10,133 @@
           href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body>
+<body class="dashboard-page">
 
-    <nav>
-        <h2>AssignEval</h2>
-        <a href="{{ url_for('logout') }}">Logout</a>
+    <nav class="navbar dashboard-navbar">
+        <a href="{{ url_for('dashboard') }}" class="logo">
+            AssignEval
+        </a>
+
+        <div class="nav-links">
+            <span class="user-label">Faculty Panel</span>
+            <a href="{{ url_for('logout') }}" class="nav-login">Logout</a>
+        </div>
     </nav>
 
-    <main>
+    <main class="evaluation-container">
 
-        <h1>Evaluate Student Assignment</h1>
+        <section class="evaluation-banner">
+            <div>
+                <span class="section-label">FACULTY WORKSPACE</span>
+                <h1>Evaluate Assignment</h1>
+                <p>Review the student's work and provide marks with constructive feedback.</p>
+            </div>
 
-        <h3>{{ submission.assignment.title }}</h3>
+            <div class="evaluation-banner-icon">📝</div>
+        </section>
 
-        <p>
-            <strong>Student:</strong>
-            {{ submission.student.username }}
-        </p>
+        <section class="evaluation-card">
 
-        <p>
-            <strong>Subject:</strong>
-            {{ submission.assignment.subject }}
-        </p>
+            <div class="evaluation-card-heading">
+                <div>
+                    <span class="evaluation-label">ASSIGNMENT DETAILS</span>
+                    <h2>{{ submission.assignment.title }}</h2>
+                </div>
 
-        <p>
-            <strong>Maximum Marks:</strong>
-            {{ submission.assignment.max_marks }}
-        </p>
+                <span class="evaluation-status">
+                    {{ submission.status }}
+                </span>
+            </div>
 
-        <form method="POST">
+            <div class="evaluation-student-details">
 
-            <label for="marks">Enter Marks</label>
+                <div class="evaluation-detail">
+                    <span>Student Name</span>
+                    <strong>{{ submission.student.username }}</strong>
+                </div>
 
-            <input
-                type="number"
-                id="marks"
-                name="marks"
-                min="0"
-                max="{{ submission.assignment.max_marks }}"
-                required
-            >
+                <div class="evaluation-detail">
+                    <span>Subject</span>
+                    <strong>{{ submission.assignment.subject }}</strong>
+                </div>
 
-            <br><br>
+                <div class="evaluation-detail">
+                    <span>Maximum Marks</span>
+                    <strong>{{ submission.assignment.max_marks }}</strong>
+                </div>
 
-            <label for="feedback">Faculty Feedback</label>
+            </div>
 
-            <textarea
-                id="feedback"
-                name="feedback"
-                rows="5"
-                required
-            ></textarea>
+            <div class="evaluation-divider"></div>
 
-            <br><br>
+            <div class="evaluation-form-heading">
+                <h3>Grading & Feedback</h3>
+                <p>Enter the marks obtained and provide feedback for the student.</p>
+            </div>
 
-            <button type="submit">
-                Submit Evaluation
-            </button>
+            <form method="POST" class="evaluation-form">
 
-        </form>
+                <div class="evaluation-form-group">
+                    <label for="marks">Marks Obtained</label>
+
+                    <div class="marks-input-wrapper">
+                        <input
+                            type="number"
+                            id="marks"
+                            name="marks"
+                            min="0"
+                            max="{{ submission.assignment.max_marks }}"
+                            placeholder="Enter marks"
+                            required
+                        >
+
+                        <span class="marks-total">
+                            / {{ submission.assignment.max_marks }}
+                        </span>
+                    </div>
+
+                    <small>
+                        Enter a score between 0 and
+                        {{ submission.assignment.max_marks }}.
+                    </small>
+                </div>
+
+                <div class="evaluation-form-group">
+                    <label for="feedback">Faculty Feedback</label>
+
+                    <textarea
+                        id="feedback"
+                        name="feedback"
+                        rows="6"
+                        placeholder="Write your feedback, suggestions and areas for improvement..."
+                        required
+                    ></textarea>
+
+                    <small>
+                        Provide clear and constructive feedback to help the student improve.
+                    </small>
+                </div>
+
+                <div class="evaluation-form-actions">
+                    <a href="{{ url_for('view_submissions') }}"
+                       class="evaluation-cancel-btn">
+                        Cancel
+                    </a>
+
+                    <button type="submit" class="evaluation-submit-btn">
+                        Submit Evaluation →
+                    </button>
+                </div>
+
+            </form>
+
+        </section>
+
+        <div class="evaluation-back-link">
+            <a href="{{ url_for('view_submissions') }}">
+                ← Back to Submissions
+            </a>
+        </div>
 
     </main>
 

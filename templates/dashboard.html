@@ -4,131 +4,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard - AssignEval</title>
+
+    <title>Student Dashboard | AssignEval</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body>
+<body class="dashboard-page">
 
-    <nav>
-        <h2>AssignEval</h2>
-        <a href="{{ url_for('logout') }}">Logout</a>
+    <!-- NAVIGATION -->
+    <nav class="navbar dashboard-navbar">
+        <a href="/" class="logo">Assign<span>Eval.</span></a>
+
+        <div class="nav-links">
+            <span class="user-label">
+                {{ current_user.username }}
+            </span>
+            <a href="{{ url_for('logout') }}" class="nav-login">Logout</a>
+        </div>
     </nav>
 
-    <main>
+    <main class="container">
 
-        <h1>Welcome, {{ current_user.username }}!</h1>
-
-        <p>You are successfully logged in to AssignEval.</p>
-
-        <section>
-
-            <h2>Student Dashboard</h2>
-
-            <!-- My Assignments -->
+        <!-- WELCOME -->
+        <section class="welcome-banner">
             <div>
-                <h3>My Assignments</h3>
+                <span class="welcome-label">STUDENT WORKSPACE</span>
+                <h1>Welcome back, {{ current_user.username }}!</h1>
+                <p>Manage your assignments and track your academic progress.</p>
+            </div>
 
-                {% if assignments %}
+            <div class="welcome-avatar">S</div>
+        </section>
+
+        <!-- QUICK ACTIONS -->
+        <section class="dashboard-actions">
+
+            <div class="action-card">
+                <div class="action-icon">📚</div>
+                <div>
+                    <h3>My Assignments</h3>
+                    <p>View your available assignments and deadlines.</p>
+                </div>
+            </div>
+
+            <div class="action-card">
+                <div class="action-icon">📤</div>
+                <div>
+                    <h3>Submit Your Work</h3>
+                    <p>Upload your completed assignment PDF.</p>
+                    <a href="{{ url_for('submit_assignment') }}"
+                       class="dashboard-btn">
+                        Submit Assignment →
+                    </a>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ASSIGNMENTS -->
+        <section class="dashboard-section">
+
+            <div class="section-title">
+                <div>
+                    <span class="section-label">YOUR ACADEMICS</span>
+                    <h2>Available Assignments</h2>
+                </div>
+            </div>
+
+            {% if assignments %}
+
+                <div class="student-assignment-grid">
 
                     {% for assignment in assignments %}
 
-                        <div>
-                            <h4>{{ assignment.title }}</h4>
+                        <div class="student-assignment-card">
 
-                            <p>
-                                <strong>Subject:</strong>
-                                {{ assignment.subject }}
-                            </p>
+                            <div class="assignment-card-top">
+                                <span class="assignment-tag">
+                                    {{ assignment.subject }}
+                                </span>
+                                <span class="assignment-number">
+                                    #{{ assignment.id }}
+                                </span>
+                            </div>
 
-                            <p>
-                                <strong>Description:</strong>
+                            <h3>{{ assignment.title }}</h3>
+
+                            <p class="assignment-description">
                                 {{ assignment.description }}
                             </p>
 
-                            <p>
-                                <strong>Deadline:</strong>
-                                {{ assignment.deadline.strftime('%d-%m-%Y %I:%M %p') }}
-                            </p>
+                            <div class="assignment-details">
 
-                            <p>
-                                <strong>Maximum Marks:</strong>
-                                {{ assignment.max_marks }}
-                            </p>
+                                <div>
+                                    <span>DEADLINE</span>
+                                    <strong>
+                                        {{ assignment.deadline.strftime('%d-%m-%Y %I:%M %p') }}
+                                    </strong>
+                                </div>
+
+                                <div>
+                                    <span>MAXIMUM MARKS</span>
+                                    <strong>{{ assignment.max_marks }} Marks</strong>
+                                </div>
+
+                            </div>
+
+                            <a href="{{ url_for('submit_assignment') }}"
+                               class="assignment-submit-link">
+                                Submit this assignment →
+                            </a>
+
                         </div>
-
-                        <hr>
 
                     {% endfor %}
 
-                {% else %}
+                </div>
 
-                    <p>No assignments available yet.</p>
+            {% else %}
 
-                {% endif %}
+                <div class="empty-state">
+                    <div>📭</div>
+                    <h3>No assignments available</h3>
+                    <p>Your faculty has not published any assignments yet.</p>
+                </div>
 
+            {% endif %}
+
+        </section>
+
+        <!-- SUBMISSIONS -->
+        <section class="dashboard-section">
+
+            <div class="section-title">
+                <div>
+                    <span class="section-label">YOUR PERFORMANCE</span>
+                    <h2>My Submissions & Results</h2>
+                    <p>Track submitted assignments, marks and faculty feedback.</p>
+                </div>
             </div>
 
-            <!-- Submit Assignment -->
-            <div>
-                <h3>Submit Assignment</h3>
+            {% if submissions %}
 
-                <p>Upload your completed assignment PDF.</p>
-
-                <a href="{{ url_for('submit_assignment') }}">
-                    <button type="button">Submit Assignment</button>
-                </a>
-            </div>
-
-            <!-- My Submissions and Results -->
-            <div>
-                <h2>My Submissions & Results</h2>
-
-                {% if submissions %}
+                <div class="student-submission-list">
 
                     {% for submission in submissions %}
 
-                        <div>
+                        <div class="student-submission-card">
 
-                            <hr>
+                            <div class="submission-heading">
+                                <div>
+                                    <span class="section-label">
+                                        {{ submission.assignment.subject }}
+                                    </span>
 
-                            <h3>{{ submission.assignment.title }}</h3>
+                                    <h3>{{ submission.assignment.title }}</h3>
+                                </div>
 
-                            <p>
-                                <strong>Subject:</strong>
-                                {{ submission.assignment.subject }}
-                            </p>
+                                {% if submission.status == "Evaluated" %}
+                                    <span class="status status-evaluated">
+                                        ✓ Evaluated
+                                    </span>
+                                {% else %}
+                                    <span class="status status-submitted">
+                                        ● Submitted
+                                    </span>
+                                {% endif %}
+                            </div>
 
-                            <p>
-                                <strong>Submitted At:</strong>
-                                {{ submission.submitted_at.strftime('%d-%m-%Y %I:%M %p') }}
-                            </p>
-
-                            <p>
-                                <strong>Status:</strong>
-                                {{ submission.status }}
-                            </p>
+                            <div class="submission-date">
+                                <span>Submitted on:</span>
+                                <strong>
+                                    {{ submission.submitted_at.strftime('%d-%m-%Y %I:%M %p') }}
+                                </strong>
+                            </div>
 
                             {% if submission.status == "Evaluated" %}
 
-                                <p>
-                                    <strong>Marks:</strong>
-                                    {{ submission.marks }}
-                                    / {{ submission.assignment.max_marks }}
-                                </p>
+                                <div class="result-panel">
 
-                                <p>
-                                    <strong>Faculty Feedback:</strong>
-                                    {{ submission.feedback }}
-                                </p>
+                                    <div class="result-marks">
+                                        <span>YOUR MARKS</span>
+                                        <strong>
+                                            {{ submission.marks }}
+                                            <small>/ {{ submission.assignment.max_marks }}</small>
+                                        </strong>
+                                    </div>
+
+                                    <div class="feedback-panel">
+                                        <span>FACULTY FEEDBACK</span>
+                                        <p>{{ submission.feedback }}</p>
+                                    </div>
+
+                                </div>
 
                             {% else %}
 
-                                <p>
-                                    Your assignment is waiting for evaluation.
-                                </p>
+                                <div class="pending-panel">
+                                    <span>⏳</span>
+                                    Your assignment is waiting for faculty evaluation.
+                                </div>
 
                             {% endif %}
 
@@ -136,17 +213,29 @@
 
                     {% endfor %}
 
-                {% else %}
+                </div>
 
-                    <p>You have not submitted any assignments yet.</p>
+            {% else %}
 
-                {% endif %}
+                <div class="empty-state">
+                    <div>📄</div>
+                    <h3>No submissions yet</h3>
+                    <p>Your submitted assignments and results will appear here.</p>
+                    <a href="{{ url_for('submit_assignment') }}"
+                       class="dashboard-btn">
+                        Submit Your First Assignment
+                    </a>
+                </div>
 
-            </div>
+            {% endif %}
 
         </section>
 
     </main>
+
+    <footer class="footer dashboard-footer">
+        <p>© 2026 AssignEval | Student Workspace</p>
+    </footer>
 
 </body>
 </html>

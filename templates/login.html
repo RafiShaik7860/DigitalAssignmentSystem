@@ -1,33 +1,125 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login - AssignEval</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | AssignEval</title>
+
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
 
-    <h1>Login to AssignEval</h1>
+<body class="auth-page">
 
-    {% with messages = get_flashed_messages() %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endwith %}
+    <nav class="navbar auth-navbar">
+        <a href="/" class="logo">
+            Assign<span>Eval.</span>
+        </a>
 
-    <form method="POST">
+        <a href="/">← Back to Home</a>
+    </nav>
 
-        <label>Email:</label>
-        <input type="email" name="email" required>
+    <main class="auth-wrapper">
 
-        <label>Password:</label>
-        <input type="password" name="password" required>
+        <div class="auth-card">
 
-        <button type="submit">Login</button>
+            <div class="auth-brand">
+                <div class="auth-logo">AE</div>
+                <span>ASSIGNEVAL PORTAL</span>
+            </div>
 
-    </form>
+            <div class="auth-heading">
+                <h1>Welcome Back!</h1>
+                <p>Login to continue to your academic workspace.</p>
+            </div>
 
-    <p>Don't have an account? <a href="/register">Register</a></p>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="auth-alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        autocomplete="email"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <div class="password-wrapper">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword()"
+                        >
+                            Show
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-submit">
+                    Login to Account →
+                </button>
+
+            </form>
+
+            <div class="auth-divider">
+                <span>NEW TO ASSIGNEVAL?</span>
+            </div>
+
+            <p class="auth-register">
+                Don't have an account?
+                <a href="{{ url_for('register') }}">Create Account</a>
+            </p>
+
+        </div>
+
+        <p class="auth-footer">
+            © 2026 AssignEval | Digital Assignment Evaluation System
+        </p>
+
+    </main>
+
+    <script>
+        function togglePassword() {
+            const password = document.getElementById("password");
+            const button = document.querySelector(".password-toggle");
+
+            if (password.type === "password") {
+                password.type = "text";
+                button.textContent = "Hide";
+            } else {
+                password.type = "password";
+                button.textContent = "Show";
+            }
+        }
+    </script>
 
 </body>
 </html>

@@ -1,49 +1,145 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Faculty Dashboard - AssignEval</title>
+
+    <title>Faculty Dashboard | AssignEval</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
 
-    <nav>
-        <h2>AssignEval</h2>
-        <a href="{{ url_for('logout') }}">Logout</a>
+<body class="dashboard-page">
+
+    <!-- NAVIGATION -->
+    <nav class="navbar dashboard-navbar">
+        <a href="/" class="logo">Assign<span>Eval.</span></a>
+
+        <div class="nav-links">
+            <span class="user-label">{{ current_user.username }}</span>
+            <a href="{{ url_for('logout') }}" class="nav-login">Logout</a>
+        </div>
     </nav>
 
-    <main>
-        <h1>Welcome, Faculty!</h1>
-        <p>Manage assignments and evaluate student submissions.</p>
+    <main class="container">
 
-        <section>
-            <h2>Faculty Dashboard</h2>
+        <!-- WELCOME BANNER -->
+        <section class="welcome-banner faculty-banner">
 
             <div>
-                <h3>Create Assignment</h3>
-                <p>Create and publish assignments for students.</p>
-                <a href="{{ url_for('create_assignment') }}">
-                    <button type="button">Create New Assignment</button>
-                </a>
+                <span class="welcome-label">FACULTY WORKSPACE</span>
+
+                <h1>Welcome back, {{ current_user.username }}!</h1>
+
+                <p>
+                    Create assignments, evaluate submissions and support
+                    student academic progress.
+                </p>
             </div>
 
-            <div>
-                <h3>View Submissions</h3>
-                <a href="{{ url_for('view_submissions') }}">
-                    <button type="button">View Student Submissions</button>
-                </a>
-                <p>View and evaluate submitted assignments.</p>
-            </div>
+            <div class="welcome-avatar">F</div>
 
-            <div>
-                <h3>Student Performance</h3>
-                <p>Monitor student marks and progress.</p>
-            </div>
         </section>
+
+        <!-- QUICK ACTIONS -->
+        <section class="dashboard-section">
+
+            <div class="section-title">
+                <span class="section-label">QUICK ACCESS</span>
+                <h2>Manage Your Classroom</h2>
+                <p>Choose an action to manage your academic activities.</p>
+            </div>
+
+            <div class="faculty-action-grid">
+
+                <!-- CREATE ASSIGNMENT -->
+                <div class="faculty-action-card">
+
+                    <div class="faculty-action-icon">📝</div>
+
+                    <span class="faculty-card-label">ASSIGNMENT MANAGEMENT</span>
+
+                    <h3>Create Assignment</h3>
+
+                    <p>
+                        Create and publish assignments for students
+                        with descriptions, deadlines and maximum marks.
+                    </p>
+
+                    <a href="{{ url_for('create_assignment') }}"
+                       class="dashboard-btn">
+                        Create New Assignment →
+                    </a>
+
+                </div>
+
+                <!-- VIEW SUBMISSIONS -->
+                <div class="faculty-action-card">
+
+                    <div class="faculty-action-icon">📂</div>
+
+                    <span class="faculty-card-label">STUDENT WORK</span>
+
+                    <h3>View Submissions</h3>
+
+                    <p>
+                        Access submitted PDF files, review student work
+                        and provide marks and feedback.
+                    </p>
+
+                    <a href="{{ url_for('view_submissions') }}"
+                       class="dashboard-btn">
+                        View Student Submissions →
+                    </a>
+
+                </div>
+
+                <!-- STUDENT PERFORMANCE -->
+                <div class="faculty-action-card">
+
+                    <div class="faculty-action-icon">📊</div>
+
+                    <span class="faculty-card-label">ACADEMIC PROGRESS</span>
+
+                    <h3>Student Performance</h3>
+
+                    <p>
+                        Monitor student marks and academic progress
+                        through evaluated submissions.
+                    </p>
+
+                    <span class="coming-soon-label">
+                        Performance overview coming soon
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- INFORMATION -->
+        <section class="faculty-info-section">
+
+            <div class="faculty-info-icon">🎓</div>
+
+            <div>
+                <h3>Your Faculty Workspace</h3>
+                <p>
+                    Use AssignEval to organize assignments, evaluate
+                    student submissions and provide meaningful feedback.
+                </p>
+            </div>
+
+        </section>
+
     </main>
+
+    <footer class="footer dashboard-footer">
+        <p>© 2026 AssignEval | Faculty Workspace</p>
+    </footer>
 
 </body>
 </html>

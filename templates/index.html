@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AssignEval | Assignment Management</title>
+    <title>AssignEval | Smart Assignment Management</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
@@ -13,70 +13,207 @@
 
 <body>
 
+    <!-- NAVIGATION -->
     <nav class="navbar">
-        <div class="logo">AssignEval</div>
+        <a href="#home" class="logo">Assign<span>Eval.</span></a>
 
         <div class="nav-links">
             <a href="#home">Home</a>
             <a href="#features">Features</a>
             <a href="#about">About</a>
+            <a href="{{ url_for('login') }}" class="nav-login">Login</a>
         </div>
-
-        <a href="{{ url_for('login') }}">Login</a>
     </nav>
 
+    <!-- HERO SECTION -->
     <section class="hero" id="home">
 
         <div class="hero-content">
 
-            <p class="tagline">SMARTER ACADEMIC MANAGEMENT</p>
+            <div class="hero-badge">
+                <span class="hero-dot"></span>
+                SMART ACADEMIC MANAGEMENT PLATFORM
+            </div>
 
             <h1>
-                Digital Assignment
-                <span>Evaluation System</span>
+                Smarter Way to
+                <span>Manage Assignments.</span>
             </h1>
 
             <p class="description">
-                Submit assignments, evaluate student performance
-                and manage academic activities through one platform.
+                Simplify academic activities with one powerful platform.
+                Submit assignments, evaluate performance and track academic
+                progress effortlessly.
             </p>
 
             <div class="hero-buttons">
-                <a href="#" class="primary-btn">Get Started</a>
-                <a href="#features" class="secondary-btn">Explore Features</a>
+                <a href="{{ url_for('login') }}" class="primary-btn">
+                    Get Started →
+                </a>
+
+                <a href="#features" class="secondary-btn">
+                    Explore Features
+                </a>
+            </div>
+
+            <div class="hero-trust">
+                <span>✓ Easy Submission</span>
+                <span>✓ Faster Evaluation</span>
+                <span>✓ Better Tracking</span>
+            </div>
+
+        </div>
+
+        <div class="hero-visual">
+
+            <div class="preview-card">
+
+                <div class="preview-header">
+                    <div>
+                        <small>ASSIGNEVAL OVERVIEW</small>
+                        <h3>Academic Workspace</h3>
+                    </div>
+                    <span class="preview-icon">AE</span>
+                </div>
+
+                <div class="preview-stat">
+                    <div>
+                        <small>Assignment Management</small>
+                        <h2>All in one place.</h2>
+                    </div>
+                    <span>✓</span>
+                </div>
+
+                <div class="preview-task">
+                    <div class="task-icon">01</div>
+                    <div>
+                        <strong>Assignment Submission</strong>
+                        <small>Students upload their work</small>
+                    </div>
+                </div>
+
+                <div class="preview-task">
+                    <div class="task-icon">02</div>
+                    <div>
+                        <strong>Faculty Evaluation</strong>
+                        <small>Review, grade and provide feedback</small>
+                    </div>
+                </div>
+
+                <div class="preview-task">
+                    <div class="task-icon">03</div>
+                    <div>
+                        <strong>Performance Tracking</strong>
+                        <small>Access marks and feedback</small>
+                    </div>
+                </div>
+
+                <div class="preview-footer">
+                    <span>One platform.</span>
+                    <strong>Three user roles.</strong>
+                </div>
+
             </div>
 
         </div>
 
     </section>
 
+    <!-- FEATURES -->
     <section class="features" id="features">
 
-        <h2>Our Platform Features</h2>
+        <div class="section-heading">
+            <span class="section-label">OUR PLATFORM</span>
+            <h2>Everything You Need in One Place</h2>
+            <p>Designed to make academic assignment management simpler.</p>
+        </div>
 
         <div class="feature-container">
 
             <div class="feature-card">
+                <div class="feature-icon student-icon">S</div>
                 <h3>Student Portal</h3>
-                <p>Submit assignments and track marks and feedback.</p>
+                <p>
+                    View assignments, upload PDF submissions,
+                    track evaluation status and receive faculty feedback.
+                </p>
             </div>
 
             <div class="feature-card">
+                <div class="feature-icon faculty-icon">F</div>
                 <h3>Faculty Portal</h3>
-                <p>Create assignments and evaluate student submissions.</p>
+                <p>
+                    Create assignments, access student submissions,
+                    download files and evaluate academic performance.
+                </p>
             </div>
 
             <div class="feature-card">
+                <div class="feature-icon admin-icon">A</div>
                 <h3>Admin Portal</h3>
-                <p>Manage users, subjects and academic activities.</p>
+                <p>
+                    Access administrative tools to manage users
+                    and oversee academic activities.
+                </p>
             </div>
 
         </div>
 
     </section>
 
-    <footer id="about">
-        <p>© 2026 AssignEval | Digital Assignment Evaluation System</p>
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works">
+
+        <div class="section-heading">
+            <span class="section-label">SIMPLE WORKFLOW</span>
+            <h2>How AssignEval Works</h2>
+            <p>A straightforward process from submission to evaluation.</p>
+        </div>
+
+        <div class="workflow-container">
+
+            <div class="workflow-step">
+                <div class="workflow-number">01</div>
+                <h3>Create</h3>
+                <p>Faculty creates assignments and sets deadlines.</p>
+            </div>
+
+            <div class="workflow-step">
+                <div class="workflow-number">02</div>
+                <h3>Submit</h3>
+                <p>Students upload their assignment PDF files.</p>
+            </div>
+
+            <div class="workflow-step">
+                <div class="workflow-number">03</div>
+                <h3>Evaluate</h3>
+                <p>Faculty reviews submissions and provides marks.</p>
+            </div>
+
+            <div class="workflow-step">
+                <div class="workflow-number">04</div>
+                <h3>Track</h3>
+                <p>Students view their results and feedback.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <section class="cta-section">
+        <h2>Make Assignment Management Easier.</h2>
+        <p>Bring students and faculty together on one platform.</p>
+        <a href="{{ url_for('login') }}" class="primary-btn">
+            Access AssignEval →
+        </a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer" id="about">
+        <a href="#home" class="logo">Assign<span>Eval.</span></a>
+        <p>Digital Assignment Evaluation System</p>
+        <p>© 2026 AssignEval. All rights reserved.</p>
     </footer>
 
 </body>

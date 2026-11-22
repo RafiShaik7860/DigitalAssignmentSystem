@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,35 +9,146 @@
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
 
-    <nav>
-        <h2>AssignEval</h2>
-        <a href="{{ url_for('logout') }}">Logout</a>
+<body class="dashboard-page">
+
+    <nav class="navbar dashboard-navbar">
+        <a href="{{ url_for('dashboard') }}" class="logo">
+            AssignEval
+        </a>
+
+        <div class="nav-links">
+            <span class="user-label">Administrator</span>
+            <a href="{{ url_for('logout') }}" class="nav-login">Logout</a>
+        </div>
     </nav>
 
-    <main>
-        <h1>Welcome, Admin!</h1>
-        <p>Manage users and monitor the AssignEval platform.</p>
+    <main class="admin-container">
 
-        <section>
-            <h2>Admin Dashboard</h2>
+        <!-- Welcome Banner -->
+        <section class="admin-banner">
 
-            <div>
-                <h3>Manage Users</h3>
-                <p>View and manage student and faculty accounts.</p>
+            <div class="admin-banner-content">
+                <span class="admin-welcome-label">ADMINISTRATION PANEL</span>
+
+                <h1>Welcome, Admin!</h1>
+
+                <p>
+                    Manage users, organize academic resources and monitor
+                    the AssignEval platform from one place.
+                </p>
             </div>
 
-            <div>
-                <h3>Manage Subjects</h3>
-                <p>Organize academic subjects and departments.</p>
-            </div>
+            <div class="admin-banner-icon">🛡️</div>
 
-            <div>
-                <h3>System Overview</h3>
-                <p>Monitor assignments and platform activity.</p>
-            </div>
         </section>
+
+        <!-- Dashboard Overview -->
+        <section class="admin-overview">
+
+            <div class="admin-section-heading">
+                <div>
+                    <span class="section-label">CONTROL CENTER</span>
+                    <h2>Admin Dashboard</h2>
+                    <p>Platform management and administration tools.</p>
+                </div>
+            </div>
+
+            <div class="admin-card-grid">
+
+                <!-- Manage Users -->
+                <article class="admin-management-card">
+
+                    <div class="admin-card-icon users-icon">👥</div>
+
+                    <span class="admin-card-status coming-soon">
+                        Coming Soon
+                    </span>
+
+                    <h3>Manage Users</h3>
+
+                    <p>
+                        View and manage student and faculty accounts.
+                        Keep track of registered platform users.
+                    </p>
+
+                    <div class="admin-card-footer">
+                        <span>User Management</span>
+                        <span>→</span>
+                    </div>
+
+                </article>
+
+                <!-- Manage Subjects -->
+                <article class="admin-management-card">
+
+                    <div class="admin-card-icon subjects-icon">📚</div>
+
+                    <span class="admin-card-status coming-soon">
+                        Coming Soon
+                    </span>
+
+                    <h3>Manage Subjects</h3>
+
+                    <p>
+                        Organize academic subjects and departments
+                        for a structured assignment workflow.
+                    </p>
+
+                    <div class="admin-card-footer">
+                        <span>Academic Management</span>
+                        <span>→</span>
+                    </div>
+
+                </article>
+
+                <!-- System Overview -->
+                <article class="admin-management-card">
+
+                    <div class="admin-card-icon system-icon">📊</div>
+
+                    <span class="admin-card-status coming-soon">
+                        Coming Soon
+                    </span>
+
+                    <h3>System Overview</h3>
+
+                    <p>
+                        Monitor assignments, submissions and
+                        overall platform activity.
+                    </p>
+
+                    <div class="admin-card-footer">
+                        <span>Platform Analytics</span>
+                        <span>→</span>
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+        <!-- Platform Information -->
+        <section class="admin-info-panel">
+
+            <div class="admin-info-icon">💡</div>
+
+            <div>
+                <h3>Platform Administration</h3>
+                <p>
+                    The administration module is being developed.
+                    User management, subject management and system
+                    analytics will be available in future updates.
+                </p>
+            </div>
+
+        </section>
+
+        <footer class="admin-footer">
+            <p>© 2026 AssignEval. Administration Dashboard.</p>
+        </footer>
+
     </main>
 
 </body>

@@ -1,45 +1,138 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Assignment - AssignEval</title>
+
+    <title>Create Assignment | AssignEval</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body>
+<body class="dashboard-page">
 
-    <nav>
-        <h2>AssignEval</h2>
-        <a href="{{ url_for('logout') }}">Logout</a>
+    <nav class="navbar dashboard-navbar">
+        <a href="/" class="logo">Assign<span>Eval.</span></a>
+
+        <div class="nav-links">
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('logout') }}" class="nav-login">Logout</a>
+        </div>
     </nav>
 
-    <main>
-        <h1>Create New Assignment</h1>
+    <main class="create-assignment-container">
 
-        <form method="POST">
+        <div class="create-page-heading">
+            <a href="{{ url_for('dashboard') }}" class="back-link">
+                ← Back to Faculty Dashboard
+            </a>
 
-            <label>Assignment Title</label>
-            <input type="text" name="title" required>
+            <span class="section-label">FACULTY WORKSPACE</span>
 
-            <label>Description</label>
-            <textarea name="description" required></textarea>
+            <h1>Create New Assignment</h1>
 
-            <label>Subject</label>
-            <input type="text" name="subject" required>
+            <p>Publish an assignment for your students with clear instructions and deadlines.</p>
+        </div>
 
-            <label>Deadline</label>
-            <input type="datetime-local" name="deadline" required>
+        <div class="create-assignment-card">
 
-            <label>Maximum Marks</label>
-            <input type="number" name="max_marks"
-                   min="1" value="100" required>
+            <div class="create-card-heading">
+                <div class="upload-heading-icon">📝</div>
+                <div>
+                    <h2>Assignment Details</h2>
+                    <p>Enter the information required to publish your assignment.</p>
+                </div>
+            </div>
 
-            <button type="submit">Create Assignment</button>
+            <form method="POST" id="createAssignmentForm">
 
-        </form>
+                <div class="form-group create-form-group">
+                    <label for="title">Assignment Title <span class="required-star">*</span></label>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        placeholder="e.g. Python Programming Assignment 1"
+                        maxlength="150"
+                        required
+                    >
+                </div>
+
+                <div class="form-group create-form-group">
+                    <label for="subject">Subject <span class="required-star">*</span></label>
+                    <input
+                        type="text"
+                        id="subject"
+                        name="subject"
+                        placeholder="e.g. Python Programming"
+                        maxlength="100"
+                        required
+                    >
+                </div>
+
+                <div class="form-group create-form-group">
+                    <label for="description">Assignment Description <span class="required-star">*</span></label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="6"
+                        placeholder="Describe the assignment, instructions, requirements and expected submission..."
+                        required
+                    ></textarea>
+                    <small>Provide clear instructions so students understand the task.</small>
+                </div>
+
+                <div class="create-form-row">
+
+                    <div class="form-group create-form-group">
+                        <label for="deadline">Submission Deadline <span class="required-star">*</span></label>
+                        <input
+                            type="datetime-local"
+                            id="deadline"
+                            name="deadline"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group create-form-group">
+                        <label for="max_marks">Maximum Marks <span class="required-star">*</span></label>
+                        <input
+                            type="number"
+                            id="max_marks"
+                            name="max_marks"
+                            min="1"
+                            value="100"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+                <div class="create-info">
+                    <span>ℹ️</span>
+                    <p>Review the assignment details and deadline before publishing. Students will be able to view the assignment on their dashboard.</p>
+                </div>
+
+                <div class="create-form-actions">
+                    <a href="{{ url_for('dashboard') }}" class="cancel-btn">
+                        Cancel
+                    </a>
+
+                    <button type="submit" class="auth-submit create-submit">
+                        Publish Assignment →
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+        <p class="upload-footer">
+            © 2026 AssignEval | Faculty Workspace
+        </p>
+
     </main>
 
 </body>

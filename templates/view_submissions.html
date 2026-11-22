@@ -10,67 +10,134 @@
           href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body>
+<body class="dashboard-page">
 
-    <nav>
-        <h2>AssignEval</h2>
-        <a href="{{ url_for('logout') }}">Logout</a>
+    <nav class="navbar dashboard-navbar">
+        <a href="{{ url_for('dashboard') }}" class="logo">
+            AssignEval
+        </a>
+
+        <div class="nav-links">
+            <span class="user-label">Faculty Panel</span>
+            <a href="{{ url_for('logout') }}" class="nav-login">Logout</a>
+        </div>
     </nav>
 
-    <main>
+    <main class="submissions-container">
 
-        <h1>Student Submissions</h1>
+        <section class="submissions-banner">
+            <div>
+                <span class="section-label">FACULTY WORKSPACE</span>
+                <h1>Student Submissions</h1>
+                <p>Review submitted assignments, download PDFs and evaluate student work.</p>
+            </div>
 
-        {% if submissions %}
+            <div class="submissions-banner-icon">📄</div>
+        </section>
 
-            {% for submission in submissions %}
+        <section class="submissions-section">
 
+            <div class="submissions-section-heading">
                 <div>
-                    <h3>{{ submission.assignment.title }}</h3>
+                    <h2>Received Submissions</h2>
+                    <p>Review and manage student assignment submissions.</p>
+                </div>
 
-                    <p>
-                        <strong>Student:</strong>
-                        {{ submission.student.username }}
-                    </p>
+                <span class="submission-count">
+                    {{ submissions|length }} Submission(s)
+                </span>
+            </div>
 
-                    <p>
-                        <strong>Subject:</strong>
-                        {{ submission.assignment.subject }}
-                    </p>
+            {% if submissions %}
 
-                    <p>
-                        <strong>Submitted At:</strong>
-                        {{ submission.submitted_at.strftime('%d-%m-%Y %I:%M %p') }}
-                    </p>
+                <div class="submission-grid">
 
-                    <p>
-                        <strong>Status:</strong>
-                        {{ submission.status }}
-                    </p>
+                    {% for submission in submissions %}
 
-                    <p>
-                        <strong>File:</strong>
-                        {{ submission.filename }}
-                    </p>
+                        <article class="submission-card">
 
-                    <a href="{{ url_for('download_submission', submission_id=submission.id) }}">
-                        <button type="button">Download PDF</button>
-                    </a>
-                    <a href="{{ url_for('evaluate_submission', submission_id=submission.id) }}">
-                         <button type="button">Evaluate Assignment</button>
-                    </a>
+                            <div class="submission-card-top">
+                                <span class="submission-file-icon">📑</span>
+
+                                {% if submission.status == "Evaluated" %}
+                                    <span class="status status-evaluated">
+                                        Evaluated
+                                    </span>
+                                {% else %}
+                                    <span class="status status-submitted">
+                                        {{ submission.status }}
+                                    </span>
+                                {% endif %}
+                            </div>
+
+                            <h3>{{ submission.assignment.title }}</h3>
+
+                            <span class="submission-subject">
+                                {{ submission.assignment.subject }}
+                            </span>
+
+                            <div class="submission-info-list">
+
+                                <div class="submission-info-row">
+                                    <span>Student</span>
+                                    <strong>{{ submission.student.username }}</strong>
+                                </div>
+
+                                <div class="submission-info-row">
+                                    <span>Submitted At</span>
+                                    <strong>
+                                        {{ submission.submitted_at.strftime('%d-%m-%Y %I:%M %p') }}
+                                    </strong>
+                                </div>
+
+                                <div class="submission-info-row">
+                                    <span>File</span>
+                                    <strong class="submission-filename">
+                                        {{ submission.filename }}
+                                    </strong>
+                                </div>
+
+                            </div>
+
+                            <div class="submission-card-actions">
+
+                                <a class="submission-download-btn"
+                                   href="{{ url_for('download_submission', submission_id=submission.id) }}">
+                                    ↓ Download PDF
+                                </a>
+
+                                <a class="submission-evaluate-btn"
+                                   href="{{ url_for('evaluate_submission', submission_id=submission.id) }}">
+                                    {% if submission.status == "Evaluated" %}
+                                        View Evaluation →
+                                    {% else %}
+                                        Evaluate Assignment →
+                                    {% endif %}
+                                </a>
+
+                            </div>
+
+                        </article>
+
+                    {% endfor %}
 
                 </div>
 
-                <hr>
+            {% else %}
 
-            {% endfor %}
+                <div class="submissions-empty-state">
+                    <div class="empty-state-icon">📭</div>
+                    <h3>No Submissions Yet</h3>
+                    <p>Student submissions will appear here once they upload their assignments.</p>
+                </div>
 
-        {% else %}
+            {% endif %}
 
-            <p>No submissions received yet.</p>
+        </section>
 
-        {% endif %}
+        <div class="submissions-back-link">
+            <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+        </div>
 
     </main>
 
