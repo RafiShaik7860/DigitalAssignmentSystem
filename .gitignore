@@ -20,3 +20,8 @@ uploads/
 .vscode/
 .DS_Store
 Thumbs.db
+# Local database and migration utility scripts
+check_counts.py
+check_uploads.py
+create_admin.py
+migrate_data.py
